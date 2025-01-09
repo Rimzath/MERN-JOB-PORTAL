@@ -8,7 +8,7 @@ const Home = () => {
     <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>
       <Navbar />
       <Header />
-      <div>Weslcome to Home</div>
+      <div>Welcome to Home</div>
     </Box>
   );
 };
