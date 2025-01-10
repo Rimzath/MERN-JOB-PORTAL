@@ -6,12 +6,14 @@ import { Box } from "@mui/material";
 
 const Home = () => {
   return (
-    <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>
-      <Navbar />
-      <Header />
-      <div>Welcome to Home</div>
+    <>
+      <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>
+        <Navbar />
+        <Header />
+        <div>Welcome to Home</div>
+      </Box>
       <Footer />
-    </Box>
+    </>
   );
 };
 
