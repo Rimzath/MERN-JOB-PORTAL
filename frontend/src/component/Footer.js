@@ -16,7 +16,7 @@ const Footer = () => {
         }}
       >
         <Box component="span" sx={{ color: palette.primary.main }}>
-          All rights reserved! 2023.
+          All rights reserved! 2025.
         </Box>
       </Box>
     </>
