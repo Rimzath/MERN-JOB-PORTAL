@@ -13,12 +13,12 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import WorkIcon from "@mui/icons-material/Work";
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles"; // Import Material-UI theme hook
-import { deepPurple } from "@mui/material/colors"; // Import color for Avatar
+import { useTheme } from "@mui/material/styles";
+import { deepPurple } from "@mui/material/colors";
 
 const Navbar = () => {
-  const theme = useTheme(); // Access Material-UI theme
-  const { palette } = theme; // Get palette for styling
+  const theme = useTheme();
+  const { palette } = theme;
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -155,7 +155,7 @@ const Navbar = () => {
                       textDecoration: "none",
                       color: palette.secondary.main,
                     }}
-                    to="/admin/dashboard"
+                    to="/"
                   >
                     Admin Dashboard
                   </Link>
@@ -168,7 +168,7 @@ const Navbar = () => {
                       textDecoration: "none",
                       color: palette.secondary.main,
                     }}
-                    to="/user/dashboard"
+                    to="/"
                   >
                     User Dashboard
                   </Link>
@@ -181,7 +181,7 @@ const Navbar = () => {
                       textDecoration: "none",
                       color: palette.secondary.main,
                     }}
-                    to="/login"
+                    to="/"
                   >
                     Log In
                   </Link>
