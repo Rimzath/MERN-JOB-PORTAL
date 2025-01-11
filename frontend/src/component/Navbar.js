@@ -181,7 +181,7 @@ const Navbar = () => {
                       textDecoration: "none",
                       color: palette.secondary.main,
                     }}
-                    to="/"
+                    to="/login"
                   >
                     Log In
                   </Link>
