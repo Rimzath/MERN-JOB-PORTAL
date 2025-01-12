@@ -6,6 +6,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useDispatch } from "react-redux";
+import { userSignUpAction } from "../redux/actions/userAction";
 
 const validationSchema = yup.object({
   firstName: yup
@@ -27,6 +29,8 @@ const validationSchema = yup.object({
 });
 
 const Register = () => {
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -36,7 +40,8 @@ const Register = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
-      alert(JSON.stringify(values, null, 2)); // For UI demonstration
+      //alert(JSON.stringify(values, null, 2));
+      dispatch(userSignUpAction(values));
       actions.resetForm();
     },
   });
