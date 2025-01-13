@@ -9,3 +9,4 @@ const { isAuthenticated, isAdmin } = require("../middleware/auth");
 router.get("/allusers", isAuthenticated, isAdmin, allUsers);
 // /api/user/id
 router.get("/user/:id", isAuthenticated, singleUser);
+module.exports = router;
