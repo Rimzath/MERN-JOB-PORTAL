@@ -1,31 +1,27 @@
-const ErrorResponse = require("../utils/errorResponse");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-// Check if the user is authenticated
-exports.isAuthenticated = async (req, res, next) => {
-  const { token } = req.cookies; // Get token from cookies
+const protect = async (req, res, next) => {
+  let token;
 
-  // Ensure the token exists
-  if (!token) {
-    return next(new ErrorResponse("You must log in!", 401));
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    try {
+      token = req.headers.authorization.split(" ")[1];
+      const decoded = jwt.verify(token, "your_jwt_secret");
+
+      req.user = await User.findById(decoded.id).select("-password");
+      next();
+    } catch (error) {
+      res.status(401).json({ message: "Not authorized, token failed" });
+    }
   }
 
-  try {
-    // Verify the token and decode it
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // Set the user in the request object (req.user)
-    req.user = await User.findById(decoded.id);
-
-    // If the user is not found, return an error
-    if (!req.user) {
-      return next(new ErrorResponse("User not found!", 404));
-    }
-
-    next(); // Proceed to the next middleware
-  } catch (error) {
-    console.error("JWT verification error:", error); // Log the error for debugging
-    return next(new ErrorResponse("You must log in!", 401));
+  if (!token) {
+    res.status(401).json({ message: "Not authorized, no token" });
   }
 };
+
+module.exports = { protect };

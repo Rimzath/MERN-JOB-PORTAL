@@ -1,78 +1,50 @@
 const User = require("../models/userModel");
-const ErrorResponse = require("../utils/errorResponse");
+const jwt = require("jsonwebtoken");
 
-exports.signup = async (req, res, next) => {
-  const { email } = req.body;
-  const userExist = await User.findOne({ email });
-  if (userExist) {
-    return next(new ErrorResponse("E-mail already registred", 400));
-  }
+// Generate JWT token
+const generateToken = (id) => {
+  return jwt.sign({ id }, "your_jwt_secret", { expiresIn: "1h" });
+};
+
+// Sign-up
+exports.registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+
   try {
-    req.body.role = 0; // this is to prevent anyone creating an admin user.
-    const user = await User.create(req.body);
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    const user = await User.create({ name, email, password });
     res.status(201).json({
-      success: true,
-      user,
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user.id),
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
-exports.signin = async (req, res, next) => {
+// Sign-in
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
   try {
-    const { email, password } = req.body;
-    //validation
-    if (!email) {
-      return next(new ErrorResponse("please add an email", 403));
-    }
-    if (!password) {
-      return next(new ErrorResponse("please add a password", 403));
-    }
-
-    //check user email
     const user = await User.findOne({ email });
-    if (!user) {
-      return next(new ErrorResponse("invalid credentials", 400));
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: generateToken(user.id),
+      });
+    } else {
+      res.status(401).json({ message: "Invalid email or password" });
     }
-    //check password
-    const isMatched = await user.comparePassword(password);
-    if (!isMatched) {
-      return next(new ErrorResponse("invalid credentials", 400));
-    }
-
-    sendTokenResponse(user, 200, res);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: "Server error", error });
   }
-};
-
-const sendTokenResponse = async (user, codeStatus, res) => {
-  const token = await user.getJwtToken();
-  res
-    .status(codeStatus)
-    .cookie("token", token, { maxAge: 60 * 60 * 1000, httpOnly: true })
-    .json({
-      success: true,
-      role: user.role,
-    });
-};
-
-// log out
-exports.logout = (req, res, next) => {
-  res.clearCookie("token");
-  res.status(200).json({
-    success: true,
-    message: "logged out",
-  });
-};
-
-// user profile
-exports.userProfile = async (req, res, next) => {
-  const user = await User.findById(req.user.id).select("-password");
-
-  res.status(200).json({
-    success: true,
-    user,
-  });
 };

@@ -1,24 +1,24 @@
 const User = require("../models/userModel");
 const ErrorResponse = require("../utils/errorResponse");
 
-// Load all users
+// Load All Users
 exports.allUsers = async (req, res, next) => {
-  const pageSize = 10; // Number of users per page
+  const pageSize = Number(req.query.pageSize) || 10; // Allow dynamic page size
   const page = Number(req.query.pageNumber) || 1;
 
   try {
-    const count = await User.estimatedDocumentCount(); // Total user count
+    const count = await User.estimatedDocumentCount();
     const users = await User.find()
-      .sort({ createdAt: -1 }) // Sort by creation date (most recent first)
-      .select("-password") // Exclude the password field
-      .skip(pageSize * (page - 1)) // Pagination logic
+      .sort({ createdAt: -1 })
+      .select("-password")
+      .skip(pageSize * (page - 1))
       .limit(pageSize);
 
     res.status(200).json({
       success: true,
       users,
       page,
-      pages: Math.ceil(count / pageSize), // Total pages
+      pages: Math.ceil(count / pageSize),
       count,
     });
   } catch (error) {
@@ -26,13 +26,16 @@ exports.allUsers = async (req, res, next) => {
   }
 };
 
-// Show single user
+// Show Single User
 exports.singleUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+      return next(new ErrorResponse("Invalid user ID format", 400));
+    }
 
+    const user = await User.findById(req.params.id);
     if (!user) {
-      return next(new ErrorResponse("User not found", 404)); // Handle user not found
+      return next(new ErrorResponse("User not found", 404));
     }
 
     res.status(200).json({
@@ -40,6 +43,6 @@ exports.singleUser = async (req, res, next) => {
       user,
     });
   } catch (error) {
-    next(new ErrorResponse("Unable to fetch user", 500)); // Catch database or other errors
+    next(new ErrorResponse("Unable to fetch user", 500));
   }
 };
