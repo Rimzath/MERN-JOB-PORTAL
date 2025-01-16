@@ -168,7 +168,7 @@ const Navbar = () => {
                       textDecoration: "none",
                       color: palette.secondary.main,
                     }}
-                    to="/"
+                    to="/user/dashboard"
                   >
                     User Dashboard
                   </Link>
