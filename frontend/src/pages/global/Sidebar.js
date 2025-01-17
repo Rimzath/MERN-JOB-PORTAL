@@ -75,16 +75,28 @@ const SidebarAdm = () => {
             }}
           >
             <>
-              <MenuItem component={<Link to="/" />} icon={<DashboardIcon />}>
+              <MenuItem
+                component={<Link to="/admin/dashboard" />}
+                icon={<DashboardIcon />}
+              >
                 Dashboard
               </MenuItem>
-              <MenuItem component={<Link to="/" />} icon={<GroupAddIcon />}>
+              <MenuItem
+                component={<Link to="/admin/users" />}
+                icon={<GroupAddIcon />}
+              >
                 Users
               </MenuItem>
-              <MenuItem component={<Link to="/" />} icon={<WorkIcon />}>
+              <MenuItem
+                component={<Link to="/admin/jobs" />}
+                icon={<WorkIcon />}
+              >
                 Jobs
               </MenuItem>
-              <MenuItem component={<Link to="/" />} icon={<CategoryIcon />}>
+              <MenuItem
+                component={<Link to="/admin/category" />}
+                icon={<CategoryIcon />}
+              >
                 Category
               </MenuItem>
             </>
