@@ -74,7 +74,6 @@ const SidebarAdm = () => {
               },
             }}
           >
-            (
             <>
               <MenuItem component={<Link to="/" />} icon={<DashboardIcon />}>
                 Dashboard
@@ -89,19 +88,27 @@ const SidebarAdm = () => {
                 Category
               </MenuItem>
             </>
-            ) : (
+
             <>
-              <MenuItem component={<Link to="/" />} icon={<DashboardIcon />}>
+              <MenuItem
+                component={<Link to="/user/dashboard" />}
+                icon={<DashboardIcon />}
+              >
                 Dashboard
               </MenuItem>
-              <MenuItem component={<Link to="/" />} icon={<WorkHistoryIcon />}>
+              <MenuItem
+                component={<Link to="/user/jobs" />}
+                icon={<WorkHistoryIcon />}
+              >
                 Applied Jobs
               </MenuItem>
-              <MenuItem component={<Link to="/" />} icon={<Person3Icon />}>
+              <MenuItem
+                component={<Link to="/user/info" />}
+                icon={<Person3Icon />}
+              >
                 Personal Info
               </MenuItem>
             </>
-            )
           </Menu>
         </Box>
         <Box sx={{ pb: 2 }}>
