@@ -1,12 +1,46 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { thunk } from "redux-thunk";
+import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
+import {
+  deleteJobReducer,
+  loadJobReducer,
+  loadJobSingleReducer,
+  registerAjobReducer,
+  updateJobReducer,
+} from "./reducers/jobReducer";
 
-import { userReducerSignIn } from "./reducers/userReducer";
+import {
+  createJobTypeReducer,
+  loadJobTypeReducer,
+} from "./reducers/jobTypeReducer";
+
+import {
+  allUserReducer,
+  userApplyJobReducer,
+  userReducerLogout,
+  userReducerProfile,
+  userReducerSignIn,
+  userReducerSignUp,
+} from "./reducers/userReducer";
+
+import { modeReducer } from "./reducers/themeModeReducer";
 
 //combine reducers
 const reducer = combineReducers({
+  loadJobs: loadJobReducer,
+  jobTypeAll: loadJobTypeReducer,
   signIn: userReducerSignIn,
+  logOut: userReducerLogout,
+  userProfile: userReducerProfile,
+  singleJob: loadJobSingleReducer,
+  userJobApplication: userApplyJobReducer,
+  allUsers: allUserReducer,
+  signUp: userReducerSignUp,
+  mode: modeReducer,
+  registerJob: registerAjobReducer,
+  deleteJob: deleteJobReducer,
+  createJobType: createJobTypeReducer,
+  updateJob: updateJobReducer,
 });
 
 //initial state
