@@ -19,7 +19,7 @@ const jobRoute = require("./routes/jobsRoutes");
 // Database connection
 mongoose
   .connect(
-    "mongodb+srv://rimzath123:rimzath123@mern-jobs.wou6f.mongodb.net/?retryWrites=true",
+    "mongodb+srv://rimzath123:rimzath123@mern-jobs-port.qlqf6.mongodb.net/?retryWrites=true",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
